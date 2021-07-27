@@ -1,13 +1,16 @@
 {
   "name": "swagger-2-jsdoc",
   "version": "1.0.0",
-  "description": "",
+  "description": "Generates jsdoc from a swagger file/url",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": {
+    "name": "Alaa El Helw",
+    "email": "work@sunny.fr"
+  },
   "license": "ISC",
   "dependencies": {
     "command-line-args": "^5.1.3",
