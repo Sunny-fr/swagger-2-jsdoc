@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const {getRemoteSwagger} = require('./http/remote')
 const {getOptions} = require('./options/options')
 const {slugify, capitalize} = require('./utils/string')

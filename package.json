@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Generates jsdoc from a swagger file/url",
   "main": "src/index.js",
+  "bin": {
+    "sw2jd": "src/index.js",
+    "swagger-2-json": "src/index.js"
+  },
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
