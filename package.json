@@ -1,5 +1,5 @@
 {
-  "name": "swagger-to-jsdoc",
+  "name": "swagger-2-jsdoc",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
