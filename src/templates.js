@@ -1,10 +1,8 @@
-const fs = require('fs')
 const mustache = require('mustache')
-
-const defaultTemplate = fs.readFileSync('./src/templates/default.type.tpl', {encoding: 'utf8'})
-const objectTemplate = fs.readFileSync('./src/templates/object.type.tpl', {encoding: 'utf8'})
-const enumTemplate = fs.readFileSync('./src/templates/enum.type.tpl', {encoding: 'utf8'})
-const namespaceTemplate = fs.readFileSync('./src/templates/namespace.type.tpl', {encoding: 'utf8'})
+const defaultTemplate = require('./templates/default.type.tpl')
+const objectTemplate = require('./templates/object.type.tpl')
+const enumTemplate = require('./templates/enum.type.tpl')
+const namespaceTemplate = require('./templates/namespace.type.tpl')
 
 
 const templateMap = {

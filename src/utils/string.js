@@ -4,8 +4,9 @@
  * @param {string} [separator="-"]
  * @return {string} slug
  */
-function slugify (str = '',separator = "-") {
+function slugify (str = "",separator = "-") {
   return str
+    .replace(/\//g, ' ')
     .normalize('NFD')                   // split an accented letter in the base letter and the acent
     .replace(/[\u0300-\u036f]/g, '')   // remove all previously split accents
     .toLowerCase()

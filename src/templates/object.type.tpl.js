@@ -1,3 +1,4 @@
+const objectTypeTemplate = `
 {{=<% %>=}}
 /**
 * @typedef {<%{ type }%>} <% name %>
@@ -6,4 +7,6 @@
 <% /properties %>
 * @export
 */
+`
 
+module.exports = objectTypeTemplate

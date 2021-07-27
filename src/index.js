@@ -10,23 +10,27 @@ const {messages} = require('./errors/messages')
 
 
 const print = console.log
+
 /**
  *
  * @param {string} path - example "input/petstore-swagger.json"
  * @param {string} url - example "https://petstore.swagger.io/v2/swagger.json"
  * @param {string} [output]
+ * @param {string} [outputDirectory="output"]
  * @return {Promise<{outputPath: string}>}
  */
 async function init({
-  path,
-  url,
-  output}) {
+                      path,
+                      url,
+                      output,
+                      outputDirectory="output/"
+                    }) {
   try {
     const swagger = !!url ? await getRemoteSwagger({url}) : await getLocalSwaggerFile({path})
     const swaggerName = swagger?.info?.title || 'Untitled swagger'
     const swaggerSlug = slugify(swaggerName)
     const swaggerNamespace = capitalize(swaggerSlug, '-').split('-').join('')
-    const outputPath = output || `./output/${swaggerSlug}.typedefs.js`
+    const outputPath = output || `${outputDirectory}${outputDirectory.endsWith('/') ? '' : '/'}${swaggerSlug}.typedefs.js`
     const base = !!swaggerNamespace ? renderNamespace({namespace: swaggerNamespace}) : ''
     const contents = Object.keys(swagger.definitions).reduce((prev, name) => {
       const definition = swagger.definitions[name]
@@ -48,16 +52,18 @@ async function init({
 
 const prepare = () => {
   const options = getOptions()
-  if(!options.path && !options.url) {
+  if (!options.path && !options.url) {
     print(messages.noPathNoUrl())
-    return;
+    return
   }
-  if(!!options.path && !!options.url) {
+  if (!!options.path && !!options.url) {
     print(messages.bothPathAndUrl())
-    return;
+    return
   }
 
-   init({path: options.path, url: options.url})
+  init({
+    path: options.path, url: options.url, output: options.output, outputDirectory: options.outputDirectory
+  })
     .then(({outputPath}) => {
       print(messages.success({outputPath}))
     })
