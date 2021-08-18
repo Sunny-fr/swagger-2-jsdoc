@@ -16,23 +16,25 @@ const getTemplate = (type) => {
   return templateMap[type] || defaultTemplate
 }
 
-const extractEnum = (definitionParams) => {
-  return {
-    ...definitionParams,
-    type: definitionParams.enum.map(value => `"${value}"`).join(' | '),
-  }
-}
+const isEnum = (definitionParams) => definitionParams.type === 'enum' || (definitionParams.type === 'object' && !!definitionParams.enum)
+
 
 const overridePropertyParams = (definitionParams) => {
-  if(definitionParams.type === 'enum') {
-    return extractEnum(definitionParams)
+  if(isEnum(definitionParams)) {
+    return {
+      ...definitionParams,
+      type: definitionParams.enum.map(value => `"${value}"`).join(' | '),
+    }
   }
   return definitionParams
 }
 
 const paramsOverridesRoot = (definitionParams) => {
-  if(definitionParams.type === 'enum') {
-    return extractEnum(definitionParams)
+  if(isEnum(definitionParams)) {
+    return {
+      ...definitionParams,
+      enum: definitionParams.enum.map(value => `"${value}"`).join(' | '),
+    }
   }
   if(!definitionParams.properties) {
     return definitionParams
