@@ -16,15 +16,33 @@ const getTemplate = (type) => {
   return templateMap[type] || defaultTemplate
 }
 
-const paramsOverrides = (definitionParams) => {
+const extractEnum = (definitionParams) => {
+  return {
+    ...definitionParams,
+    type: definitionParams.enum.map(value => `"${value}"`).join(' | '),
+  }
+}
+
+const overridePropertyParams = (definitionParams) => {
   if(definitionParams.type === 'enum') {
-    return {
-      ...definitionParams,
-      // override needed because mustache js doesnt support removing the last trailing "|"
-      enum: definitionParams.enum.map(value => `"${value}"`).join(' | ')
-    }
+    return extractEnum(definitionParams)
   }
   return definitionParams
+}
+
+const paramsOverridesRoot = (definitionParams) => {
+  if(definitionParams.type === 'enum') {
+    return extractEnum(definitionParams)
+  }
+  if(!definitionParams.properties) {
+    return definitionParams
+  }
+  return {
+    ...definitionParams,
+    properties: definitionParams.properties.map((_definitionParams) => {
+      return overridePropertyParams(_definitionParams)
+    })
+  }
 }
 /**
  *
@@ -38,7 +56,8 @@ const renderNamespace = (params) => {
 
 const renderJsDoc = (definitionParams) => {
   const template = getTemplate(definitionParams.type)
-  return mustache.render(template, paramsOverrides(definitionParams))
+  const templateData = paramsOverridesRoot(definitionParams)
+  return mustache.render(template, templateData)
 }
 
 module.exports = {
