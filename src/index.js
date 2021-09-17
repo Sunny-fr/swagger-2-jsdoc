@@ -32,8 +32,9 @@ async function init({
     const swaggerNamespace = capitalize(swaggerSlug, '-').split('-').join('')
     const outputPath = output || `${outputDirectory}${outputDirectory.endsWith('/') ? '' : '/'}${swaggerSlug}.typedefs.js`
     const base = !!swaggerNamespace ? renderNamespace({namespace: swaggerNamespace}) : ''
-    const contents = Object.keys(swagger.definitions).reduce((prev, name) => {
-      const definition = swagger.definitions[name]
+    const definitions = swagger.definitions || swagger.components.schemas;
+    const contents = Object.keys(definitions).reduce((prev, name) => {
+      const definition = definitions[name]
       const params = prepareDefinitions(name, definition, swaggerNamespace)
       const currentJsDoc = renderJsDoc(params)
       return prev + currentJsDoc
