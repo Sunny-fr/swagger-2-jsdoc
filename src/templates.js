@@ -2,6 +2,7 @@ const mustache = require('mustache')
 const defaultTemplate = require('./templates/default.type.tpl')
 const objectTemplate = require('./templates/object.type.tpl')
 const enumTemplate = require('./templates/enum.type.tpl')
+const arrayTemplate = require('./templates/array.type.tpl')
 const namespaceTemplate = require('./templates/namespace.type.tpl')
 
 
@@ -9,7 +10,8 @@ const templateMap = {
   object: objectTemplate,
   string: defaultTemplate,
   enum: enumTemplate,
-  namespace: namespaceTemplate
+  namespace: namespaceTemplate,
+  array: arrayTemplate,
 }
 
 const getTemplate = (type) => {

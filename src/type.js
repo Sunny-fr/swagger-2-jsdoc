@@ -35,7 +35,7 @@ const getMainType = (definition, namespace) => {
  * @return {string}
  */
 const getSubType = (type, definition, namespace) => {
-  if( type === 'array' && !!definition.items.$ref) {
+  if( type === 'array' && !!definition?.items?.$ref) {
     const ref = definition?.items?.$ref || ''
     const _definition = {type: ref}
     return getMainType(_definition, namespace)
