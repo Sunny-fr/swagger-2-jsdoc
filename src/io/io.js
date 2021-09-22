@@ -4,9 +4,9 @@ const fs = require('fs')
  * @param {string} path
  * @return {Promise<SwaggerFile>}
  */
-const getLocalSwaggerFile = ({path}) => {
+const getLocalSwaggerFile = ({ path }) => {
   return new Promise((resolve, reject) => {
-    const sourceFile = fs.readFileSync(path, {encoding: 'utf8'})
+    const sourceFile = fs.readFileSync(path, { encoding: 'utf8' })
     try {
       return resolve(JSON.parse(sourceFile))
     } catch (e) {
@@ -17,10 +17,10 @@ const getLocalSwaggerFile = ({path}) => {
 }
 
 const writeJsDoc = (path, contents) => {
-  fs.writeFileSync(path, contents, {encoding: 'utf8'})
+  fs.writeFileSync(path, contents, { encoding: 'utf8' })
 }
 
 module.exports = {
   writeJsDoc,
-  getLocalSwaggerFile
+  getLocalSwaggerFile,
 }

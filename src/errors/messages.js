@@ -1,4 +1,4 @@
-function noPathNoUrl () {
+function noPathNoUrl() {
   return `
   
 ---------------------
@@ -10,7 +10,7 @@ Or please provide a url to a swagger file
     `
 }
 
-function bothPathAndUrl () {
+function bothPathAndUrl() {
   return `
   
 ---------------------
@@ -25,7 +25,7 @@ URL will be used and path ignored
  * @param {string} outputPath
  * @return {string}
  */
-function success({outputPath}){
+function success({ outputPath }) {
   return `
   
 ---------------------
@@ -36,7 +36,7 @@ Your file is located here : ${outputPath}
     `
 }
 
-function unknownError(){
+function unknownError() {
   return `
   
 ---------------------
@@ -49,8 +49,8 @@ const messages = {
   bothPathAndUrl,
   noPathNoUrl,
   success,
-  unknownError
+  unknownError,
 }
 module.exports = {
-  messages
+  messages,
 }

@@ -8,7 +8,6 @@
  * @property {String} version
  */
 
-
 /**
  * @typedef {object} SwaggerFile
  * @property {String} basePath
