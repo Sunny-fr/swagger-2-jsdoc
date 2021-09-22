@@ -30,8 +30,13 @@ const overridePropertyParams = (definitionParams) => {
   }
   return definitionParams
 }
-
-const paramsOverridesRoot = (definitionParams) => {
+/**
+ *
+ * @param definitionParams
+ * @param {{googleClosureSyntax: boolean}} options
+ * @return {(*&{enum: *})|(*&{properties: ((*&{type: *})|*)[]})|*}
+ */
+const paramsOverridesRoot = (definitionParams, options) => {
   if (isEnum(definitionParams)) {
     return {
       ...definitionParams,
@@ -44,13 +49,12 @@ const paramsOverridesRoot = (definitionParams) => {
   return {
     ...definitionParams,
     properties: definitionParams.properties.map((_definitionParams) => {
-      const propertyParams = _definitionParams
-      propertyParams.requirednessFlag = '='
-      if (
-        definitionParams.required &&
-        definitionParams.required.includes(propertyParams.name)
-      ) {
-        propertyParams.requirednessFlag = ''
+      const propertyParams = {
+        ..._definitionParams,
+        optionalStyleEqual:
+          !_definitionParams.required && options.googleClosureSyntax,
+        optionalStyleBrackets:
+          !_definitionParams.required && !options.googleClosureSyntax,
       }
       return overridePropertyParams(propertyParams)
     }),
@@ -65,10 +69,15 @@ const renderNamespace = (params) => {
   const template = getTemplate('namespace')
   return mustache.render(template, params)
 }
-
-const renderJsDoc = (definitionParams) => {
+/**
+ *
+ * @param {object} definitionParams
+ * @param {{googleClosureSyntax: boolean}} options
+ * @return {string}
+ */
+const renderJsDoc = (definitionParams, options) => {
   const template = getTemplate(definitionParams.type)
-  const templateData = paramsOverridesRoot(definitionParams)
+  const templateData = paramsOverridesRoot(definitionParams, options)
   return mustache.render(template, templateData)
 }
 
