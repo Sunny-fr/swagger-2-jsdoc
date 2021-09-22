@@ -1,7 +1,9 @@
 # swagger-to-jsdoc
+
 Generates jsdoc from a swagger file/url.
 
 ## From this sample file (swagger.json)
+
 ```json
 {
   "swagger": "2.0",
@@ -27,9 +29,11 @@ Generates jsdoc from a swagger file/url.
   }
 }
 ```
+
 or open-api version [v3.x petstore-expanded.json](https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore-expanded.json)
 
 ## To that
+
 ```javascript
 /**
  * SwaggerPetstore.
@@ -46,7 +50,9 @@ or open-api version [v3.x petstore-expanded.json](https://raw.githubusercontent.
 ```
 
 # Installation
+
 Global installation
+
 ```
 npm i -g swagger-2-jsdoc
 ```
@@ -80,7 +86,9 @@ npm start -- --url="https://petstore.swagger.io/v2/swagger.json" --output=output
 ```
 
 # Reading types in js files
+
 You can reference these generated _types_ in your js files as below:
+
 ```javascript
 // Step 1: Add the following line at the end of your types (output.typedefs.js) file
 export default {}
@@ -90,7 +98,6 @@ export default {}
 /** @type {(response: import('./output.typedefs.js').SwaggerPetstore.ApiResponse) => Promise<any>} */
 export const handleResponse = async (response) => {
   // auto-complete options
-  response.
-};
-
+  response.someKey
+}
 ```

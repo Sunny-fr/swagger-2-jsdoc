@@ -1,5 +1,5 @@
-const {findType} = require('./type')
-const {getType} = require('./type')
+const { findType } = require('./type')
+const { getType } = require('./type')
 
 const getObjectProperties = (def, name, namespace) => {
   const type = getType(def, namespace)
@@ -7,7 +7,7 @@ const getObjectProperties = (def, name, namespace) => {
     ...def,
     name,
     namespace,
-    type
+    type,
   }
 }
 const prepareDefinitions = (name, definition, namespace) => {
@@ -16,26 +16,26 @@ const prepareDefinitions = (name, definition, namespace) => {
     ...definition,
     type: type,
     name: !!namespace ? `${namespace}.${name}` : name,
-    namespace: namespace
+    namespace: namespace,
   }
-  if(type === 'enum') {
+  if (type === 'enum') {
     return {
       ...base,
-      enum: base.enum.map(enumValue => findType(enumValue, namespace))
+      enum: base.enum.map((enumValue) => findType(enumValue, namespace)),
     }
   }
-  if(type === 'object') {
+  if (type === 'object') {
     return {
       ...base,
       properties: Object.keys(base.properties || {}).reduce((arr, property) => {
         const def = base.properties[property]
         return arr.concat(getObjectProperties(def, property, namespace))
-      }, [])
+      }, []),
     }
   }
   return base
 }
 
 module.exports = {
-  prepareDefinitions
+  prepareDefinitions,
 }

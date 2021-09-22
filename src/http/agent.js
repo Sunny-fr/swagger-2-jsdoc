@@ -1,23 +1,23 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 
 /** KISS
  *
  * @param url
  * @param method
  */
-const httpClient = ({url, method = 'get'}) => {
+const httpClient = ({ url, method = 'get' }) => {
   return fetch(url, {
     method,
-  }).then(response => {
-    if(response.ok) {
+  }).then((response) => {
+    if (response.ok) {
       return response.json()
     }
     return Promise.reject({
-      message: 'error fetching data'
+      message: 'error fetching data',
     })
   })
 }
 
 module.exports = {
-  httpClient
+  httpClient,
 }

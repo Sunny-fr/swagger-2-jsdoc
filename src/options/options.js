@@ -4,7 +4,7 @@ const optionDefinitions = [
   { name: 'output', alias: 'o', type: String },
   { name: 'outputDirectory', alias: 'd', type: String },
   { name: 'path', alias: 'p', type: String },
-  { name: 'url', alias: 'u', type: String }
+  { name: 'url', alias: 'u', type: String },
 ]
 /**
  *
@@ -20,5 +20,5 @@ const getOptions = () => {
 }
 
 module.exports = {
-  getOptions
+  getOptions,
 }
