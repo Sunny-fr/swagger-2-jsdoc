@@ -1,13 +1,32 @@
 const { findType } = require('./type')
 const { getType } = require('./type')
 
-const getObjectProperties = (def, name, namespace) => {
-  const type = getType(def, namespace)
+/**
+ *
+ * @param {string} name
+ * @param {array<string>} [requiredProperties=[]]
+ * @return {boolean} param is required
+ */
+const isRequired = ({ name, requiredProperties = [] }) => {
+  return requiredProperties.includes(name)
+}
+
+/**
+ *
+ * @param {object} typeDefinition
+ * @param {string} name
+ * @param {string} namespace
+ * @param {boolean} required
+ * @return {*&{name, namespace, type: string, required}}
+ */
+const getObjectProperties = ({ typeDefinition, name, namespace, required }) => {
+  const type = getType(typeDefinition, namespace)
   return {
-    ...def,
+    ...typeDefinition,
     name,
     namespace,
     type,
+    required,
   }
 }
 const prepareDefinitions = (name, definition, namespace) => {
@@ -28,8 +47,22 @@ const prepareDefinitions = (name, definition, namespace) => {
     return {
       ...base,
       properties: Object.keys(base.properties || {}).reduce((arr, property) => {
-        const def = base.properties[property]
-        return arr.concat(getObjectProperties(def, property, namespace))
+        const typeDefinition = base.properties[property]
+        const required = Array.isArray(definition.required)
+          ? isRequired({
+              name: property,
+              requiredProperties: definition.required,
+            })
+          : true
+        return arr.concat(
+          getObjectProperties({
+            name: property,
+            typeDefinition,
+            property,
+            namespace,
+            required,
+          })
+        )
       }, []),
     }
   }
