@@ -22,3 +22,18 @@
  * @property {Array} tags
  * @export
  */
+
+/**
+ * @typedef {object} OpenAPISwaggerFile
+ * @property {String} basePath
+ * @property {{schemas: object}} components
+ * @property {Object} externalDocs
+ * @property {String} host
+ * @property {SwaggerFileInfo} info
+ * @property {Object} paths
+ * @property {Array} schemes
+ * @property {Object} securityDefinitions
+ * @property {String} swagger
+ * @property {Array} tags
+ * @export
+ */
