@@ -1,9 +1,9 @@
 const defaultTypeTemplate = `
 {{=<% %>=}}
 /**
-* @typedef {<%{ type }%>} <% name %>
-* @export
-*/
+ * @typedef {<%{ type }%>} <% name %>
+ * @export
+ */
 `
 
 module.exports = defaultTypeTemplate

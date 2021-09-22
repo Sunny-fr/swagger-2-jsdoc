@@ -1,8 +1,8 @@
 const namespaceTypeTemplate = `{{=<% %>=}}
 /**
-* <% namespace %>.
-* @namespace <% namespace %>
-*/
+ * <% namespace %>.
+ * @namespace <% namespace %>
+ */
 `
 
 module.exports = namespaceTypeTemplate

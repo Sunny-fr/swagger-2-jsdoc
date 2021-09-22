@@ -42,7 +42,12 @@ const paramsOverridesRoot = (definitionParams) => {
   return {
     ...definitionParams,
     properties: definitionParams.properties.map((_definitionParams) => {
-      return overridePropertyParams(_definitionParams)
+      const propertyParams = _definitionParams;
+      propertyParams.requirednessFlag = "=";
+      if(definitionParams.required && definitionParams.required.includes(propertyParams.name)) {
+        propertyParams.requirednessFlag = '';
+      }
+      return overridePropertyParams(propertyParams)
     })
   }
 }
