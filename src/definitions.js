@@ -36,6 +36,16 @@ const prepareDefinitions = (name, definition, namespace) => {
   return base
 }
 
+/**
+ * @param {SwaggerFile|OpenAPISwaggerFile} swagger - swagger object
+ * @returns {object} swagger definitions
+ */
+function getDefinitions(swagger) {
+  if (swagger.definitions) return swagger.definitions
+  return swagger?.components?.schemas || {}
+}
+
 module.exports = {
   prepareDefinitions,
+  getDefinitions,
 }

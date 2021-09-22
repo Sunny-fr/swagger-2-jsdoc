@@ -4,7 +4,7 @@ const { getOptions } = require('./options/options')
 const { slugify, capitalize } = require('./utils/string')
 const { renderNamespace } = require('./templates')
 const { renderJsDoc } = require('./templates')
-const { prepareDefinitions } = require('./definitions')
+const { prepareDefinitions, getDefinitions } = require('./definitions')
 const { getLocalSwaggerFile, writeJsDoc } = require('./io/io')
 const { messages } = require('./errors/messages')
 
@@ -34,7 +34,7 @@ async function init({ path, url, output, outputDirectory = 'output/' }) {
     const base = !!swaggerNamespace
       ? renderNamespace({ namespace: swaggerNamespace })
       : ''
-    const definitions = swagger.definitions || swagger.components.schemas
+    const definitions = getDefinitions(swagger)
     const contents = Object.keys(definitions).reduce((prev, name) => {
       const definition = definitions[name]
       const params = prepareDefinitions(name, definition, swaggerNamespace)
