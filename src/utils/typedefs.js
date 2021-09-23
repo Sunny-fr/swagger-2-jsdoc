@@ -9,9 +9,22 @@
  */
 
 /**
+ * @typedef {object} PropertyDefinition
+ * @property {string} type
+ * @property {string} format
+ */
+
+/**
+ * @typedef {object} Definition
+ * @property {string} type
+ * @property {array<string>} required
+ * @property {Object<string, PropertyDefinition>} properties
+ */
+
+/**
  * @typedef {object} SwaggerFile
  * @property {String} basePath
- * @property {object} definitions
+ * @property {Object<string, Definition>} definitions
  * @property {Object} externalDocs
  * @property {String} host
  * @property {SwaggerFileInfo} info
@@ -26,7 +39,7 @@
 /**
  * @typedef {object} OpenAPISwaggerFile
  * @property {String} basePath
- * @property {{schemas: object}} components
+ * @property {{schemas: Object<string, Definition>}} components
  * @property {Object} externalDocs
  * @property {String} host
  * @property {SwaggerFileInfo} info

@@ -16,9 +16,16 @@ const print = console.log
  * @param {string} url - example "https://petstore.swagger.io/v2/swagger.json"
  * @param {string} [output]
  * @param {string} [outputDirectory="output"]
+ * @param {boolean} [googleClosureSyntax=false]
  * @return {Promise<{outputPath: string}>}
  */
-async function init({ path, url, output, outputDirectory = 'output/' }) {
+async function init({
+  path,
+  url,
+  output,
+  outputDirectory = 'output/',
+  googleClosureSyntax = false,
+}) {
   try {
     const swagger = !!url
       ? await getRemoteSwagger({ url })
@@ -38,7 +45,7 @@ async function init({ path, url, output, outputDirectory = 'output/' }) {
     const contents = Object.keys(definitions).reduce((prev, name) => {
       const definition = definitions[name]
       const params = prepareDefinitions(name, definition, swaggerNamespace)
-      const currentJsDoc = renderJsDoc(params)
+      const currentJsDoc = renderJsDoc(params, { googleClosureSyntax })
       return prev + currentJsDoc
     }, base)
 
@@ -69,6 +76,7 @@ const prepare = () => {
     url: options.url,
     output: options.output,
     outputDirectory: options.outputDirectory,
+    googleClosureSyntax: options.googleClosureSyntax,
   })
     .then(({ outputPath }) => {
       print(messages.success({ outputPath }))
