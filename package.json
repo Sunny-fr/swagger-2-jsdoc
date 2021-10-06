@@ -1,6 +1,6 @@
 {
   "name": "swagger-2-jsdoc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Generates jsdoc from a swagger file/url",
   "main": "src/index.js",
   "bin": {
