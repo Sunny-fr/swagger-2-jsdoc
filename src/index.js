@@ -39,7 +39,12 @@ async function init({
         outputDirectory.endsWith('/') ? '' : '/'
       }${swaggerSlug}.typedefs.js`
     const base = !!swaggerNamespace
-      ? renderNamespace({ namespace: swaggerNamespace })
+      ? renderNamespace({
+          namespace: swaggerNamespace,
+          source: url,
+          description: swagger?.info?.description,
+          version: swagger?.info?.version,
+        })
       : ''
     const definitions = getDefinitions(swagger)
     const contents = Object.keys(definitions).reduce((prev, name) => {

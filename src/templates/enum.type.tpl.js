@@ -1,6 +1,8 @@
 const enumTypeTemplate = `
 {{=<% %>=}}
-/**
+/**<% #description %>
+ * <%{ description }%>
+ <% /description %>
  * @typedef {<%{ enum }%>} <% name %>
  * @export
  */
