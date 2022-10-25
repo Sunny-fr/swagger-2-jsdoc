@@ -11,7 +11,8 @@ function slugify(str = '', separator = '-') {
     .replace(/[\u0300-\u036f]/g, '') // remove all previously split accents
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9 ]/g, '') // remove all chars not letters, numbers and spaces (to be replaced)
+    .replace(/[^a-z0-9_ ]/g, '') // remove all chars not letters, numbers and spaces (to be replaced)
+    .replaceAll('_', '-')
     .replace(/\s+/g, separator)
 }
 
