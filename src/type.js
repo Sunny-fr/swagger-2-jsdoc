@@ -8,12 +8,27 @@ const typesMap = {
 
 //const DEFINITION_FORMAT = '#/definitions/{definition}'
 
+function getDefinitionFromType(type, namespace) {
+  const definitionReg = new RegExp('#/definitions/([A-z0-9-]*)', 'g')
+  const exec = definitionReg.exec(type)
+  if (!!exec && !!exec[1]) {
+    return `${!!namespace ? namespace + '.' : ''}${exec[1]}`
+  }
+  return null
+}
+function getSchemaFromType(type, namespace) {
+  const schemaReg = new RegExp('#/components/schemas/([A-z0-9-]*)', 'g')
+  const exec = schemaReg.exec(type)
+  if (!!exec && !!exec[1]) {
+    return `${!!namespace ? namespace + '.' : ''}${exec[1]}`
+  }
+  return null
+}
+
 const findType = (type, namespace = '') => {
-  const reg = new RegExp('#/definitions/([A-z0-9-]*)', 'g')
-  const exec = reg.exec(type)
-  return exec && !!exec[1]
-    ? `${!!namespace ? namespace + '.' : ''}${exec[1]}`
-    : type
+  const definitionReg = getDefinitionFromType(type, namespace)
+  const schemaReg = getSchemaFromType(type, namespace)
+  return definitionReg || schemaReg || type
 }
 
 const getMainType = (definition, namespace) => {
