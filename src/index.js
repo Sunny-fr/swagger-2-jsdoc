@@ -15,8 +15,10 @@ const print = console.log
  * @param {string} path - example "input/petstore-swagger.json"
  * @param {string} url - example "https://petstore.swagger.io/v2/swagger.json"
  * @param {string} [output]
+ * @param {string} [name] - Custom name for the namespace (will be slugified)
  * @param {string} [outputDirectory="output"]
  * @param {boolean} [googleClosureSyntax=false]
+ * @param {boolean} [insecure=false]
  * @return {Promise<{outputPath: string}>}
  */
 async function init({
@@ -25,12 +27,14 @@ async function init({
   output,
   outputDirectory = 'output/',
   googleClosureSyntax = false,
+  name,
+  insecure = false,
 }) {
   try {
     const swagger = !!url
-      ? await getRemoteSwagger({ url })
+      ? await getRemoteSwagger({ url, insecure })
       : await getLocalSwaggerFile({ path })
-    const swaggerName = swagger?.info?.title || 'Untitled swagger'
+    const swaggerName = name || swagger?.info?.title || 'Untitled swagger'
     const swaggerSlug = slugify(swaggerName)
     const swaggerNamespace = capitalize(swaggerSlug, '-').split('-').join('')
     const outputPath =
@@ -82,6 +86,8 @@ const prepare = () => {
     output: options.output,
     outputDirectory: options.outputDirectory,
     googleClosureSyntax: options.googleClosureSyntax,
+    name: options.name,
+    insecure: options.insecure,
   })
     .then(({ outputPath }) => {
       print(messages.success({ outputPath }))

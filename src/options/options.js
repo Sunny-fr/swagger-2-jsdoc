@@ -5,6 +5,8 @@ const optionDefinitions = [
   { name: 'outputDirectory', alias: 'd', type: String },
   { name: 'path', alias: 'p', type: String },
   { name: 'url', alias: 'u', type: String },
+  { name: 'name', alias: 'n', type: String },
+  { name: 'insecure', alias: 'i', type: Boolean, defaultValue: false },
   {
     name: 'googleClosureSyntax',
     alias: 'g',
@@ -20,6 +22,8 @@ const optionDefinitions = [
  *   path: string,
  *   url: string,
  *   googleClosureSyntax: boolean
+ *   name?: string
+ *   insecure?: boolean
  * }}
  */
 const getOptions = () => {
