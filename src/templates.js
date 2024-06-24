@@ -2,6 +2,7 @@ const mustache = require('mustache')
 const defaultTemplate = require('./templates/default.type.tpl')
 const objectTemplate = require('./templates/object.type.tpl')
 const enumTemplate = require('./templates/enum.type.tpl')
+const allOfTemplate = require('./templates/allOf.type.tpl')
 const arrayTemplate = require('./templates/array.type.tpl')
 const namespaceTemplate = require('./templates/namespace.type.tpl')
 
@@ -9,6 +10,7 @@ const templateMap = {
   object: objectTemplate,
   string: defaultTemplate,
   enum: enumTemplate,
+  allOf: allOfTemplate,
   namespace: namespaceTemplate,
   array: arrayTemplate,
 }
@@ -20,6 +22,10 @@ const getTemplate = (type) => {
 const isEnum = (definitionParams) =>
   definitionParams.type === 'enum' ||
   (definitionParams.type === 'object' && !!definitionParams.enum)
+
+const isAllOf = (definitionParams) => {
+  return Array.isArray(definitionParams.allOf)
+}
 
 const overridePropertyParams = (definitionParams) => {
   if (isEnum(definitionParams)) {
@@ -37,6 +43,22 @@ const overridePropertyParams = (definitionParams) => {
  * @return {(*&{enum: *})|(*&{properties: ((*&{type: *})|*)[]})|*}
  */
 const paramsOverridesRoot = (definitionParams, options) => {
+  if (isAllOf(definitionParams)) {
+    return {
+      ...definitionParams,
+      allOf: definitionParams.allOf.map((_definitionParams) => {
+        const propertyParams = {
+          ..._definitionParams,
+          optionalStyleEqual:
+            !_definitionParams.required && options.googleClosureSyntax,
+          optionalStyleBrackets:
+            !_definitionParams.required && !options.googleClosureSyntax,
+        }
+        return overridePropertyParams(propertyParams)
+      }),
+    }
+  }
+
   if (isEnum(definitionParams)) {
     return {
       ...definitionParams,

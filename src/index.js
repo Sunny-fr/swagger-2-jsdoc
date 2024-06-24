@@ -7,6 +7,10 @@ const { renderJsDoc } = require('./templates')
 const { prepareDefinitions, getDefinitions } = require('./definitions')
 const { getLocalSwaggerFile, writeJsDoc } = require('./io/io')
 const { messages } = require('./errors/messages')
+const {
+  getSubNamespacesFromDefinitionName,
+  renderSubNamespaces,
+} = require('./subnamespaces')
 
 const print = console.log
 
@@ -50,13 +54,25 @@ async function init({
           version: swagger?.info?.version,
         })
       : ''
+
     const definitions = getDefinitions(swagger)
+
+    const subNamespaces = getSubNamespacesFromDefinitionName(
+      swaggerNamespace,
+      Object.keys(definitions)
+    )
+
+    const renderedSubNamespaces = renderSubNamespaces(subNamespaces)
+
+    const baseWithSubNamespaces = base + renderedSubNamespaces
+
     const contents = Object.keys(definitions).reduce((prev, name) => {
       const definition = definitions[name]
+
       const params = prepareDefinitions(name, definition, swaggerNamespace)
       const currentJsDoc = renderJsDoc(params, { googleClosureSyntax })
       return prev + currentJsDoc
-    }, base)
+    }, baseWithSubNamespaces)
 
     writeJsDoc(outputPath, contents)
 

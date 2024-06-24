@@ -3,7 +3,7 @@ const defaultTypeTemplate = `
 /**<% #description %>
  * <%{ description }%>
  <% /description %>
-* @typedef {<%{ type }%><<%{ items.type }%>>} <% name %>
+* @typedef {<%{ items.type }%>[]} <% name %>
 * @export
 */
 `

@@ -2,7 +2,7 @@ const enumTypeTemplate = `
 {{=<% %>=}}
 /**<% #description %>
  * <%{ description }%><% /description %>
- * @typedef {<%{ enum }%>} <% name %>
+ * @typedef {<%{ allOf }%>} <% name %>
  * @export
  */
 `
