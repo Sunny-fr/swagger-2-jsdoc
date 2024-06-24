@@ -37,6 +37,12 @@ const prepareDefinitions = (name, definition, namespace) => {
     name: !!namespace ? `${namespace}.${name}` : name,
     namespace: namespace,
   }
+  if (!type && Array.isArray(definition.allOf)) {
+    return {
+      ...base,
+      allOf: definition.allOf.map((allOf) => findType(allOf, namespace)),
+    }
+  }
   if (type === 'enum') {
     return {
       ...base,

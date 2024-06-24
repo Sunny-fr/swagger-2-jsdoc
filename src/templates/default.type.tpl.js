@@ -1,8 +1,7 @@
 const defaultTypeTemplate = `
 {{=<% %>=}}
 /**<% #description %>
- * <%{ description }%>
- <% /description %>
+ * <%{ description }%><% /description %>
  * @typedef {<%{ type }%>} <% name %>
  * @export
  */

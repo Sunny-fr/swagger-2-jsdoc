@@ -1,15 +1,17 @@
 const typesMap = {
+  namespace: 'namespace',
   object: 'object',
   string: 'string',
   integer: 'number',
   array: 'array',
   enum: 'enum',
+  allOf: 'allOf',
 }
 
 //const DEFINITION_FORMAT = '#/definitions/{definition}'
 
 function getDefinitionFromType(type, namespace) {
-  const definitionReg = new RegExp('#/definitions/([A-z0-9-]*)', 'g')
+  const definitionReg = new RegExp('#/definitions/([A-z0-9-.]*)', 'g')
   const exec = definitionReg.exec(type)
   if (!!exec && !!exec[1]) {
     return `${!!namespace ? namespace + '.' : ''}${exec[1]}`
@@ -73,6 +75,20 @@ const getSubType = (type, definition, namespace) => {
 const getType = (definition, namespace) => {
   const type = getMainType(definition, namespace)
   const subType = getSubType(type, definition, namespace)
+  if (Array.isArray(definition.allOf)) {
+    return `${definition.allOf
+      .map((allOf) => {
+        if (allOf.$ref) {
+          return findType(allOf.$ref, namespace)
+        }
+        return allOf
+      })
+      .join(' & ')}`
+  }
+  if (!!subType && type === 'array') {
+    return `${subType}[]`
+  }
+
   if (!!subType) {
     return `${type}<${subType}>`
   }
