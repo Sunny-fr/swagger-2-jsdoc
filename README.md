@@ -8,7 +8,8 @@ Generates jsdoc from a swagger file/url.
 {
   "swagger": "2.0",
   "info": {
-    "title": "Swagger Petstore"
+    "title": "Swagger Petstore",
+    "version": "1.0.0"
   },
   "definitions": {
     "ApiResponse": {
