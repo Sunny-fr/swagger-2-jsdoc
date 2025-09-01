@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+const path = require('path')
 const { getRemoteSwagger } = require('./http/remote')
 const { getOptions } = require('./options/options')
 const { slugify, capitalize } = require('./utils/string')
 const { renderNamespace } = require('./templates')
 const { renderJsDoc } = require('./templates')
 const { prepareDefinitions, getDefinitions } = require('./definitions')
-const { getLocalSwaggerFile, writeJsDoc } = require('./io/io')
+const { getLocalSwaggerFile, writeJsDoc, writeSwagger } = require('./io/io')
 const { messages } = require('./errors/messages')
 const {
   getSubNamespacesFromDefinitionName,
@@ -23,21 +24,23 @@ const print = console.log
  * @param {string} [outputDirectory="output"]
  * @param {boolean} [googleClosureSyntax=false]
  * @param {boolean} [insecure=false]
+ * @param {boolean} [copy=false]
  * @return {Promise<{outputPath: string}>}
  */
 async function init({
-  path,
+  path: swaggerPath,
   url,
   output,
   outputDirectory = 'output/',
   googleClosureSyntax = false,
   name,
   insecure = false,
+  copy = false,
 }) {
   try {
     const swagger = !!url
       ? await getRemoteSwagger({ url, insecure })
-      : await getLocalSwaggerFile({ path })
+      : await getLocalSwaggerFile({ path: swaggerPath })
     const swaggerName = name || swagger?.info?.title || 'Untitled swagger'
     const swaggerSlug = slugify(swaggerName)
     const swaggerNamespace = capitalize(swaggerSlug, '-').split('-').join('')
@@ -75,6 +78,11 @@ async function init({
     }, baseWithSubNamespaces)
 
     writeJsDoc(outputPath, contents)
+    if (copy) {
+      const { dir, name } = path.parse(outputPath)
+      const swaggerCopyPath = path.format({ dir, name, ext: '.json' })
+      writeSwagger(swaggerCopyPath, swagger)
+    }
 
     return Promise.resolve({
       outputPath,
@@ -85,6 +93,9 @@ async function init({
   }
 }
 
+/**
+ * @returns {void}
+ */
 const prepare = () => {
   const options = getOptions()
   if (!options.path && !options.url) {
@@ -104,6 +115,7 @@ const prepare = () => {
     googleClosureSyntax: options.googleClosureSyntax,
     name: options.name,
     insecure: options.insecure,
+    copy: options.copy,
   })
     .then(({ outputPath }) => {
       print(messages.success({ outputPath }))

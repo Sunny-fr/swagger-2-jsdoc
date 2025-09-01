@@ -8,7 +8,24 @@ Generates jsdoc from a swagger file/url.
 {
   "swagger": "2.0",
   "info": {
-    "title": "Swagger Petstore"
+    "title": "Swagger Petstore",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/pet": {
+      "post": {
+        "summary": "Add a new pet to the store",
+        "operationId": "addPet",
+        "responses": {
+          "405": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    }
   },
   "definitions": {
     "ApiResponse": {
@@ -70,6 +87,18 @@ generates a js file called `output.typedefs.js` from a remote swagger file `http
 ```bash
 sw2jd --url="https://petstore.swagger.io/v2/swagger.json" --output=output.typedefs.js
 ```
+
+### Copying the swagger file
+
+You can also save the original swagger file next to the generated JSDoc file by using the `-c` or `--copy` option.
+
+```bash
+sw2jd --path=./swagger.json --output=output.typedefs.js --copy
+```
+
+This will generate two files:
+* `output.typedefs.js` (the JSDoc file)
+* `output.json` (the original swagger file)
 
 # As npm package:
 
