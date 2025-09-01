@@ -11,6 +11,22 @@ Generates jsdoc from a swagger file/url.
     "title": "Swagger Petstore",
     "version": "1.0.0"
   },
+  "paths": {
+    "/pet": {
+      "post": {
+        "summary": "Add a new pet to the store",
+        "operationId": "addPet",
+        "responses": {
+          "405": {
+            "description": "Invalid input",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "ApiResponse": {
       "type": "object",
